@@ -37,10 +37,14 @@ public class Main {
 
 
     public static String bookdetails(){
+        Scanner input = new Scanner(System.in);
         String booktitle = getString("enter book title:");
-        String isbn = getString("enter the ISBN: ");
+        System.out.println("enter the ISBN: ");
+        Integer isbn = input.nextInt();
         String author = getString("enter the author: ");
         String genre = getString("enter the genre: ");
+        books newbook = new books (booktitle, isbn, author, genre);
+
         return (booktitle+ "%" + isbn + "%" + author +"%"+ genre); //add in % to know where the things seperate from each other
     }
 
