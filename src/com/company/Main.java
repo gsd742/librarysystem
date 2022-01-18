@@ -7,7 +7,9 @@ package com.company;
 import org.w3c.dom.ls.LSOutput;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.invoke.SwitchPoint;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -25,12 +27,11 @@ public class Main {
         while(finished == false) {
             System.out.println("what would you like to do?");
             System.out.println("1. register a book");
-            System.out.println("2. log in ");
+            System.out.println("2. delete borrower ");
             System.out.println("3. register for an account");
             System.out.println("4. edit book details");
             System.out.println("5. delete book");
             System.out.println("6. edit borrower");
-            System.out.println("7. delete borrower");
             Scanner input = new Scanner(System.in);
             System.out.println("enter number associated with task: ");
             int task = Integer.parseInt(input.nextLine());
@@ -39,7 +40,8 @@ public class Main {
                     bookdetails();
                     break;
                 case (2):
-                    System.out.println("log in");
+                    System.out.println("delete borrower");
+                    deleteborrower();
                     break;
                 case (3):
                     System.out.println("register");
@@ -54,9 +56,6 @@ public class Main {
                 case(6):
                     System.out.println("edit borrower");
                     editborrower();
-                case (7):
-                    System.out.println("delete borrower");
-                    deleteborrower();
 
             }
             String more = getString("anything else?");
@@ -68,6 +67,8 @@ public class Main {
                 System.out.println("bye-bye");
             }
         }
+
+        writetofile();
 
 
         }
@@ -138,6 +139,21 @@ public class Main {
                 System.out.println("deleted" + borrower);
             }
         }
+    }
+
+    public static void writetofile(){
+        try {
+
+
+            FileWriter writeto = new FileWriter("storedbooks");
+            writeto.write(storedbooks);
+            writeto.close();
+        }
+        catch ( IOException e){
+
+
+        }
+
     }
 
     public static String getString(String prompt){
