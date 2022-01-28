@@ -1,19 +1,22 @@
 package com.company;
 
-//need to make it so all borrowers and books are saved to an external file
+//need to make it so all borrowers  are saved to an external file
 //last thing should be save to file
 //first thing should be retrieve from files
+//writes the list oto file but as it doesn't get from file it erases what is already in there with the new list
+// fix by getting everything out into the array list and then saving together?
+//check parameters
 
 import org.w3c.dom.ls.LSOutput;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.invoke.SwitchPoint;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
+import java.io.FileOutputStream;
+import java.io.File;
+import java.io.IOException;
 
 public class Main {
     public static File storedbooks = new File("books"); //...?
@@ -50,13 +53,15 @@ public class Main {
                 case (4):
                     System.out.println("edit books");
                     editbook();
+                    break;
                 case(5):
                     System.out.println("delete book");
                     deletebook();
+                    break;
                 case(6):
                     System.out.println("edit borrower");
                     editborrower();
-
+                    break;
             }
             String more = getString("anything else?");
             if (more.contains("yes")){
@@ -68,7 +73,8 @@ public class Main {
             }
         }
 
-        writetofile();
+        writebooktofile();
+        writeborrowertofile();
 
 
         }
@@ -85,19 +91,19 @@ public class Main {
         BookList.add(newbook); //adds book to list
     }
 
-    public static void register(){
+    public static void register(){ //sets username and make borrowed book variable empty
       String username =getusername();
       String borrowedbook = "";
       borrower newborrower = new borrower(username, borrowedbook);
       BorrowerList.add(newborrower); //add to borrower list
     }
 
-    public static String getusername(){
+    public static String getusername(){ //gets input of username
         String username = getString("what username do you want? ");
         return username;
     }
 
-    public static void  editbook(){
+    public static void  editbook(){ //deletes and creates new book from input
         String title = getString("what is the name of the book?");
         for (int i = 0; i < BookList.size(); i++) {
             if (BookList.get(i).getBooktitle().contains(title)== true){ //takes i in arraylist, then gets book title and checks against title typed in
@@ -109,7 +115,7 @@ public class Main {
 
     }
 
-    public static void deletebook (){
+    public static void deletebook (){ //deletes book from arraylist after searching with the title
         String title = getString("what is the title?");
         for( int i = 0; i< BookList.size(); i++){
             if (BookList.get(i).getBooktitle().contains(title)){
@@ -117,10 +123,10 @@ public class Main {
                 System.out.println(title+ "has been deleted");
             }
         }
-
+    return;
     }
 
-    public static void editborrower (){
+    public static void editborrower (){ //searches username, then deletes user and creates a new one fom input
         String borrower = getString("what is the username? ");
         for (int i = 0; i< BorrowerList.size(); i++){
             if( BorrowerList.get(i).getUsername().contains(borrower)){
@@ -131,7 +137,7 @@ public class Main {
         }
     }
 
-    public static void deleteborrower(){
+    public static void deleteborrower(){ //searches for username, thn deletes from array list
         String borrower = getString("what is the name?");
         for (int i = 0; i< BorrowerList.size();i++){
             if(BorrowerList.get(i).getUsername().contains(borrower)){
@@ -141,19 +147,52 @@ public class Main {
         }
     }
 
-    public static void writetofile(){
+    public static void writebooktofile(){
         try {
 
-
-            FileWriter writeto = new FileWriter("storedbooks");
-            writeto.write(storedbooks);
+           FileWriter writeto = new FileWriter(storedbooks);
+           PrintWriter printto = new PrintWriter(writeto);
+           for ( int i = 0; i < BookList.size();i++){
+               printto.println(BookList.get(i).toString());
+           }
             writeto.close();
         }
-        catch ( IOException e){
-
-
+        catch ( Exception e){
+            e.printStackTrace();
+            System.out.println("uh oh an error (-.-);");
         }
 
+    }
+
+    public static void writeborrowertofile(){
+        try {
+
+            FileWriter writeto = new FileWriter(storedborrowers);
+            PrintWriter printto = new PrintWriter(writeto);
+            for ( int i = 0; i < BorrowerList.size();i++){
+                printto.println(BorrowerList.get(i).toString());
+            }
+            writeto.close();
+        }
+        catch ( Exception e){
+            e.printStackTrace();
+            System.out.println("uh oh an error (-.-);");
+        }
+
+
+    }
+
+    public static void readfromfile(){
+        String linefromfile;
+        try{
+            BufferedReader read = new BufferedReader(new FileReader(storedbooks));
+            while ((linefromfile = read.readLine()) != null){
+                String [] bookdetails = linefromfile.split(",");
+                String booktitle = bookdetails[0];
+                Integer isbn =
+            }
+
+        }
     }
 
     public static String getString(String prompt){
