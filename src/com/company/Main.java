@@ -7,16 +7,12 @@ package com.company;
 // fix by getting everything out into the array list and then saving together?
 //check parameters
 
-import org.w3c.dom.ls.LSOutput;
 
 import java.io.*;
-import java.lang.invoke.SwitchPoint;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
-import java.io.FileOutputStream;
 import java.io.File;
-import java.io.IOException;
+
 
 public class Main {
     public static File storedbooks = new File("books"); //...?
@@ -26,6 +22,7 @@ public class Main {
 
 
     public static void main(String[] args) {
+        readfromfile();
         boolean finished = false;
         while(finished == false) {
             System.out.println("what would you like to do?");
@@ -92,15 +89,10 @@ public class Main {
     }
 
     public static void register(){ //sets username and make borrowed book variable empty
-      String username =getusername();
+      String username =getString("what username do you want? ");
       String borrowedbook = "";
       borrower newborrower = new borrower(username, borrowedbook);
       BorrowerList.add(newborrower); //add to borrower list
-    }
-
-    public static String getusername(){ //gets input of username
-        String username = getString("what username do you want? ");
-        return username;
     }
 
     public static void  editbook(){ //deletes and creates new book from input
@@ -189,9 +181,16 @@ public class Main {
             while ((linefromfile = read.readLine()) != null){
                 String [] bookdetails = linefromfile.split(",");
                 String booktitle = bookdetails[0];
-                Integer isbn =
+                Integer isbn = Integer.parseInt(bookdetails[1]);
+                String author = bookdetails[2];
+                String genre = bookdetails[3];
+                books newbook = new books (booktitle, isbn, author, genre );
+                BookList.add(newbook);
             }
-
+        }
+        catch ( Exception e){
+            System.out.println("uh on error on reading ;-;");
+            System.out.println(e);
         }
     }
 
