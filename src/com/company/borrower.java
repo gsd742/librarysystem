@@ -2,12 +2,14 @@ package com.company;
 
 public class borrower {
     private String username;
-    private String borrowedbook;
+    private String password;
+    private boolean employee;
 
 
-    public borrower(String username, String borrowedbook){
+    public borrower(String username, String password, boolean employee){
         this.username = username;
-        this.borrowedbook = borrowedbook;
+        this.password = password;
+        this.employee = employee;
 
     }
 
@@ -20,10 +22,18 @@ public class borrower {
     }
 
     public String getBorrowedbook() {
-        return borrowedbook;
+        return password;
     }
 
     public void setBorrowedbook(String borrowedbook) {
-        this.borrowedbook = borrowedbook;
+        this.password = borrowedbook;
+    }
+
+    public boolean isEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(boolean employee) {
+        this.employee = employee;
     }
 }

@@ -1,11 +1,6 @@
 package com.company;
 
-//need to make it so all borrowers  are saved to an external file
-//last thing should be save to file
-//first thing should be retrieve from files
-//writes the list oto file but as it doesn't get from file it erases what is already in there with the new list
-// fix by getting everything out into the array list and then saving together?
-//check parameters
+
 
 
 import java.io.*;
@@ -60,7 +55,7 @@ public class Main {
                     editborrower();
                     break;
             }
-            String more = getString("anything else?");
+            String more = getString("anything else? yes or no");
             if (more.contains("yes")){
                 finished = false;
             }
@@ -69,13 +64,9 @@ public class Main {
                 System.out.println("bye-bye");
             }
         }
-
         writebooktofile();
         writeborrowertofile();
-
-
         }
-
 
     public static void  bookdetails(){ //gets the book details input only
         Scanner input = new Scanner(System.in);
@@ -85,14 +76,81 @@ public class Main {
         String author = getString("enter the author: ");
         String genre = getString("enter the genre: ");
         books newbook = new books (booktitle, isbn, author, genre); //adds to object
+        System.out.println("book has been added");
         BookList.add(newbook); //adds book to list
     }
 
     public static void register(){ //sets username and make borrowed book variable empty
-      String username =getString("what username do you want? ");
-      String borrowedbook = "";
-      borrower newborrower = new borrower(username, borrowedbook);
+      String username =getusername();
+      String password = getpassword();
+      boolean employee = getemployee();
+      borrower newborrower = new borrower(username, password, employee);
       BorrowerList.add(newborrower); //add to borrower list
+    }
+
+    public static String getusername(){
+        boolean valid = false;
+        String username = "";
+        while (valid == false ){
+            username = getString("enter your email address : ");
+            if (username.contains("@")){
+                valid = true;
+            }
+        }
+        return username;
+    }
+
+    public static String getpassword() {
+        boolean valid = false;
+        String password = "";
+        while (valid == false){
+            password = getString("enter your password: ");
+            boolean length = false ;
+            boolean upper = false;
+            boolean lower = false ;
+            if (password.length() > 8){
+                length = true;
+            }
+            else {
+                System.out.println("password is too short, needs to be at least 8 characters");
+            }
+            if (password.matches(".*[A-Z].*")){
+                upper = true;
+            }
+            else{
+                System.out.println("need to have at least one capital letter");
+            }
+            if (password.matches(".*[a-z].*")){
+                lower = true;
+            }
+            else {
+                System.out.println("password needs to contain a lower case letter");
+            }
+            if (length == true & upper == true & lower == true){
+                valid = true;
+            }
+        }
+        return password;
+    }
+
+    public static boolean getemployee(){
+        boolean valid = false;
+        boolean employee;
+        while (valid == false){ //makes sure there is valid input
+            String ans = getString("are you an employee? Y/N ");
+            if (ans == "Y"){
+                employee = true;
+                valid = true;
+            }
+            if (ans == "N"){
+                employee = false;
+                valid = true;
+            }
+            else{
+                System.out.println("not valid input, please put Y or N");
+            }
+        }
+        return employee;
     }
 
     public static void  editbook(){ //deletes and creates new book from input
@@ -113,6 +171,9 @@ public class Main {
             if (BookList.get(i).getBooktitle().contains(title)){
                 BookList.remove(i);
                 System.out.println(title+ "has been deleted");
+            }
+            else{
+                System.out.println("doesnt exist");
             }
         }
     return;
